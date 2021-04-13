@@ -20,6 +20,7 @@ from apps.clientes import views as clientes_views
 urlpatterns = [
     path('', clientes_views.login_view),
     path('admin/', admin.site.urls),
-    path('adminPage/', clientes_views.admin_view),
-    path('login', clientes_views.login_method)
+    path('menu', clientes_views.admin_view),
+    path('login', clientes_views.login_method),
+    path('logout', clientes_views.logout_method)
 ]
