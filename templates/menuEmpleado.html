@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+    <!-- <script defer src="{% static 'js/menu.js' %}"></script> -->
+
+    <title>Mercedes Benz | Menú</title>
+</head>
+<body>
+    <nav id="navbar">
+        <img src="{% static 'img/logo1.png' %}" alt="logo" id="logo">
+        <div id="logoutContainer">
+            <a href="/logout" id="logoutButton">Cerrar sesión</a>
+        </div>
+    </nav>
+    <main>
+        <h2 id="welcome">Bienvenido {{ User }}!</h2>
+        <div class="options">
+            <div class="option" id="ventaButton">
+                Registro de venta
+            </div>
+            <div class="option" id="contactoButton">
+                Solicitudes de contacto
+            </div>
+        </div>
+    </main>
+</body>
+</html>
