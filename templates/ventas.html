@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" class="m-0 p-0 h-full w-full box-border flex flex-col">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <title>Mercedes Benz | Ventas</title>
+</head>
+<body class="m-0 p-0 h-full w-full box-border flex flex-col">
+    {% include 'nav.html' %}
+    <div class="inline-flex flex-row w-full h-full bg-gray-200">
+        {% include "sidebar.html" with tipo=User.tipo %}
+        <div class="w-full pt-8 flex justify-center">
+            <div class="flex flex-col w-11/12 items-center">
+                <table class="table-auto bg-white w-full overflow-y-auto">
+                    <tr class="bg-indigo-900 text-white rounded-md py-2">
+                        <th class="py-3 text-lg">Producto</th>
+                        <th class="py-3 text-lg">Sucursal</th>
+                        <th class="py-3 text-lg">Empleado</th>
+                        <th class="py-3 text-lg">Cliente</th>
+                        <th class="py-3 text-lg">Fecha</th>
+                        <th class="py-3 text-lg">Tipo</th>
+                        <th class="py-3 text-lg">Status</th>
+                    </tr>
+                    {% for i in ventas %}
+                        <tr class="text-center py-2">
+                            <td class="py-2"> {{ i.producto }} </td>
+                            <td class="py-2"> {{ i.sucursal }} </td>
+                            <td class="py-2"> {{ i.empleado }} </td>
+                            <td class="py-2"> {{ i.cliente }} </td>
+                            <td class="py-2"> {{ i.fecha_venta }} </td>
+                            {% if i.tipo_venta == 'FI' %}
+                                <td class="py-2"> Financiado </td>
+                            {% elif i.tipo == 'CR' %}
+                                <td class="py-2"> Crédito </td>
+                            {% else %}
+                                <td class="py-2"> Contado </td>     
+                            {% endif %}
+
+                            {% if i.status == 'CA' %}
+                                <td class="py-2"> Con Adeudo </td>
+                            {% else %}
+                                <td class="py-2"> Pagado </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+                <a href="/ventas/registrarVenta" class="mt-4 self-end bg-green-800 text-white py-2 px-4 hover:bg-green-700">Registrar venta</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

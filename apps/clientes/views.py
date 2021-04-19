@@ -80,8 +80,7 @@ def nuevoVendedorView(request):
                 return render(request, 'nuevoVendedor.html', {"vendedores": vendedores, "User": user, 'form': form})
         else:
             form = CustomEmpleadoCreationForm()
-
-        return render(request, 'nuevoProducto.html', {"vendedores": vendedores, "User": user, 'form': form})
+            return render(request, 'nuevoVendedor.html', {"vendedores": vendedores, "User": user, 'form': form})
     else:
         return redirect('/')
 
