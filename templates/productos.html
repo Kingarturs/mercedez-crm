@@ -36,12 +36,13 @@
                                 <td class="py-2"> Inactivo </td>
                             {% endif %}
                             <td class="py-2"> ${{ i.precio_unitario }} </td>
-                            <td class="py-2">
+                            <td class="py-2 flex flex-row justify-center">
                                 <form method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" value="{{ i.pk }}" name="pk">
                                     <input type="submit" value="Eliminar" class="bg-red-500 hover:bg-red-400 cursor-pointer rounded-md text-white py-1 px-4">
                                 </form>
+                                <a href="editarProducto/{{i.pk}}" class="bg-yellow-500 hover:bg-yellow-400 cursor-pointer rounded-md text-white py-1 px-4 ml-2">Editar</a>
                             </td>
                         </tr>
                     {% endfor %}

@@ -84,3 +84,24 @@ def nuevoVendedorView(request):
         return render(request, 'nuevoProducto.html', {"vendedores": vendedores, "User": user, 'form': form})
     else:
         return redirect('/')
+
+def editarVendedorView(request, pk):
+    vendedores = Empleado.objects.filter(tipo="SE")
+    user = User.objects.filter(username=request.user).first()
+
+    vendedor = Empleado.objects.filter(pk=pk).first()
+    if user.tipo == 'MA':
+
+        if request.method == "POST":
+            form = CustomEmpleadoCreationForm(request.POST, instance=vendedor)
+            if form.is_valid():
+                form.save()
+                return redirect("/menu/vendedores")
+            else:
+                return render(request, 'nuevoVendedor.html', {"vendedores": vendedores, "User": user, 'form': form})
+
+
+        form = CustomEmpleadoCreationForm(instance=vendedor)
+        return render(request, 'nuevoVendedor.html', {"vendedores": vendedores, "User": user, 'form': form})
+    else:
+        return redirect('/')

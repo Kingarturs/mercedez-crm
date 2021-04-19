@@ -43,3 +43,24 @@ def nuevoProductoView(request):
         return render(request, 'nuevoProducto.html', {"productos": productos, "User": user, 'form': form})
     else:
         return redirect('/')
+
+def editarProductoView(request, pk):
+    productos = Producto.objects.all()
+    user = User.objects.filter(username=request.user).first()
+
+    producto = Producto.objects.filter(pk=pk).first()
+    if user.tipo == 'MA':
+
+        if request.method == "POST":
+            form = nuevoProductoForm(request.POST, instance=producto)
+            if form.is_valid():
+                form.save()
+                return redirect("/menu/productos")
+            else:
+                return render(request, 'nuevoProducto.html', {"productos": productos, "User": user, 'form': form})
+
+
+        form = nuevoProductoForm(instance=producto)
+        return render(request, 'nuevoProducto.html', {"productos": productos, "User": user, 'form': form})
+    else:
+        return redirect('/')

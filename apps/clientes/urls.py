@@ -7,6 +7,8 @@ urlpatterns = [
     path('', login_required(clientes_views.admin_view, login_url='/')),
     path('productos', login_required(productos_views.productosView, login_url='/')),
     path('nuevoProducto', login_required(productos_views.nuevoProductoView, login_url='/')),
+    path('editarProducto/<pk>', login_required(productos_views.editarProductoView, login_url='/')),
     path('vendedores', login_required(clientes_views.vendedoresView, login_url='/')),
     path('nuevoVendedor', login_required(clientes_views.nuevoVendedorView, login_url='/')),
+    path('editarVendedor/<pk>', login_required(clientes_views.editarVendedorView, login_url='/')),
 ]
