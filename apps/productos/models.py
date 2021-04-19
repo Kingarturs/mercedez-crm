@@ -14,7 +14,7 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=240, null=False, blank=False)
     existencias = models.IntegerField(null=False)
     status = models.CharField(max_length=40, null=False, blank=False, choices=STATUS_CHOICES)
-    sucursal = models.ForeignKey(Sucursal, null=False, on_delete=models.CASCADE)
+    sucursal = models.OneToOneField(Sucursal, null=False, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.modelo}"

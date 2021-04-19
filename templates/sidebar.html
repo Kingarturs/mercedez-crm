@@ -1,32 +1,37 @@
 {% block sidebar %}
-{% load static %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
-</head>
-<nav id="sidebar">
-    <h3>
-        Opciones
-    </h3>
-    <div class="navOption"> 
-        <a href="#">Registro de venta</a> </div>
+    {% load static %}
+    <head>
+        <link rel="stylesheet" href="{% static 'css/sidebarBlock.css' %}">
+    </head>
+    <div id="sidebar" class="pt-4">
+        <a href="/" class="navOption">
+            <p>Menú principal</p>
+        </a>
+        <h3 class="font-bold">
+            Opciones
+        </h3>
+        <a href="#" class="navOption">
+            <p>Registro de venta</p>
+        </a>
+        <a href="#" class="navOption">
+            <p>Solicitudes de contacto</p>
+        </a>
+        {% if tipo == 'MA' %}
+            <a href="#" class="navOption">
+                <p>Comisiones</p>
+            </a>
+            <a href="#" class="navOption"> 
+                <p>Ventas</p>
+            </a>
+            <a href="#" class="navOption">
+                <p>Clientes</p>
+            </a>
+            <a href="vendedores" class="navOption">
+                <p>Vendedores</p>
+            </a>
+            <a href="productos" class="navOption">
+                <p>Productos</p>
+            </a>
+        {% endif %}
     </div>
-    <div class="navOption"> 
-        <a href="#">Solicitudes de contacto</a> </div>
-    </div>
-    <div class="navOption"> 
-        <a href="#">Comisiones</a> </div>
-    </div>
-    <div class="navOption"> 
-        <a href="#">Ventas</a> </div>
-    </div>
-    <div class="navOption"> 
-        <a href="#">Clientes</a> </div>
-    </div>
-    <div class="navOption"> 
-        <a href="#">Vendedores</a> </div>
-    </div>
-    <div class="navOption"> 
-        <a href="#">Productos</a> </div>
-    </div>
-</nav>
 {% endblock %}

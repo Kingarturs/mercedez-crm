@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth import get_user_model
+from .models import Empleado
+from .forms import CustomEmpleadoCreationForm
 
 User = get_user_model()
 
@@ -45,9 +47,40 @@ def admin_view(request):
 
         user = User.objects.filter(username=request.user).first()
 
-        if user.tipo == "SE":
-            return render(request, "menuEmpleado.html", {"User": request.user})
-        else:
-            return render(request, "menuAdmin.html", {"User": request.user})
+        return render(request, "menu.html", {"User": user})
     else:
         return redirect("/")
+
+def vendedoresView(request):
+    if request.method == "POST":
+        pk = request.POST.get("pk")
+        vendedor = Empleado.objects.filter(pk=pk).first()
+        if vendedor != None:
+            vendedor.delete()
+
+    vendedores = Empleado.objects.filter(tipo="SE")
+    user = User.objects.filter(username=request.user).first()
+
+    if user.tipo == 'MA':
+        return render(request, 'vendedores.html', {"vendedores": vendedores, "User": user})
+    else:
+        return redirect('/')
+
+def nuevoVendedorView(request):
+    vendedores = Empleado.objects.filter(tipo="SE")
+    user = User.objects.filter(username=request.user).first()
+
+    if user.tipo == 'MA':
+        if request.method == 'POST':
+            form = CustomEmpleadoCreationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("/menu/vendedores")
+            else: 
+                return render(request, 'nuevoVendedor.html', {"vendedores": vendedores, "User": user, 'form': form})
+        else:
+            form = CustomEmpleadoCreationForm()
+
+        return render(request, 'nuevoProducto.html', {"vendedores": vendedores, "User": user, 'form': form})
+    else:
+        return redirect('/')
