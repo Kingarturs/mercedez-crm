@@ -1,6 +1,6 @@
 from apps.productos.models import Producto
 from apps.sucursales.models import Sucursal
-from apps.clientes.models import Cliente
+from apps.clientes.models import Cliente, Prospecto
 from django.db import models
 from datetime import date
 from django.contrib.auth import get_user_model
@@ -26,5 +26,5 @@ class Venta(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    prospecto = models.ForeignKey(Prospecto, on_delete=models.CASCADE)
 

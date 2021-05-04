@@ -19,11 +19,19 @@ from apps.clientes import views as clientes_views
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('', clientes_views.login_view),
     path('admin/', admin.site.urls),
-    path('products/', include('apps.productos.urls')),
+    path('productos/', include('apps.productos.urls')),
     path('ventas/', include('apps.ventas.urls')),
-    path('menu/', include('apps.clientes.urls')),
-    path('login', clientes_views.login_method),
-    path('logout', clientes_views.logout_method)
+    path('clientes/', include('apps.clientes.urls')),
+    path('sucursales/', include('apps.sucursales.urls')),
+
+    path('menu/', clientes_views.admin_view),
+    path('login', clientes_views.login_view),
+    path('logout', clientes_views.logout_method),
+    path('vendedores', login_required(clientes_views.vendedoresView, login_url='/login')),
+    path('vendedores/nuevoVendedor', login_required(clientes_views.nuevoVendedorView, login_url='/login')),
+    path('vendedores/editarVendedor/<pk>', login_required(clientes_views.editarVendedorView, login_url='/login')),
+    path('prospectos', login_required(clientes_views.prospectosView, login_url='/login')),
+    path('prospectos/nuevoProspecto', login_required(clientes_views.nuevoProspectoView, login_url='/login')),
+    path('prospectos/editarProspecto/<pk>', login_required(clientes_views.editarProspectoView, login_url='/login')),
 ]

@@ -1,4 +1,6 @@
+from django.db.models.fields import DateField
 from django.forms import ModelForm
+from django.forms.widgets import SelectDateWidget
 from .models import Venta
 
 class nuevaVentaForm(ModelForm):
@@ -10,5 +12,9 @@ class nuevaVentaForm(ModelForm):
             'producto',
             'sucursal',
             'empleado',
-            'cliente'
+            'prospecto'
         ]
+
+        widgets = {
+            'fecha_venta': SelectDateWidget(),
+        }

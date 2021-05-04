@@ -23,10 +23,9 @@ def productosView(request):
     if user.tipo == 'MA':
         return render(request, 'productos.html', {"productos": productos, "User": user})
     else:
-        return redirect('/')
+        return redirect('/menu')
 
 def nuevoProductoView(request):
-    productos = Producto.objects.all()
     user = User.objects.filter(username=request.user).first()
 
     if user.tipo == 'MA':
@@ -34,18 +33,17 @@ def nuevoProductoView(request):
             form = nuevoProductoForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect("/menu/productos")
+                return redirect("/productos")
             else: 
-                return render(request, 'nuevoProducto.html', {"productos": productos, "User": user, 'form': form})
+                return render(request, 'nuevoProducto.html', {"User": user, 'form': form})
         else:
             form = nuevoProductoForm()
 
-        return render(request, 'nuevoProducto.html', {"productos": productos, "User": user, 'form': form})
+        return render(request, 'nuevoProducto.html', {"User": user, 'form': form})
     else:
-        return redirect('/')
+        return redirect('/menu')
 
 def editarProductoView(request, pk):
-    productos = Producto.objects.all()
     user = User.objects.filter(username=request.user).first()
 
     producto = Producto.objects.filter(pk=pk).first()
@@ -55,12 +53,12 @@ def editarProductoView(request, pk):
             form = nuevoProductoForm(request.POST, instance=producto)
             if form.is_valid():
                 form.save()
-                return redirect("/menu/productos")
+                return redirect("/productos")
             else:
-                return render(request, 'nuevoProducto.html', {"productos": productos, "User": user, 'form': form})
+                return render(request, 'nuevoProducto.html', {"User": user, 'form': form})
 
 
         form = nuevoProductoForm(instance=producto)
-        return render(request, 'nuevoProducto.html', {"productos": productos, "User": user, 'form': form})
+        return render(request, 'nuevoProducto.html', {"User": user, 'form': form})
     else:
-        return redirect('/')
+        return redirect('/menu')

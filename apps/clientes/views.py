@@ -4,8 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth import get_user_model
-from .models import Empleado
-from .forms import CustomEmpleadoCreationForm
+from .models import Cliente, Empleado, Prospecto
+from .forms import CustomEmpleadoCreationForm, nuevoClienteForm, nuevoProspectoForm
 
 User = get_user_model()
 
@@ -30,14 +30,6 @@ def login_view(request):
             messages.error(request, "Usuario y/o contraseña incorrectos")
     return render(request, 'login.html', {'form': form})
 
-def login_method(request):
-    username = request.POST.get("username")
-    password = request.POST.get("password")
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        login(request, user)
-        return redirect("/admin")
-
 def logout_method(request):
     logout(request)
     return redirect('/')
@@ -49,7 +41,7 @@ def admin_view(request):
 
         return render(request, "menu.html", {"User": user})
     else:
-        return redirect("/")
+        return redirect("/login")
 
 def vendedoresView(request):
     if request.method == "POST":
@@ -64,10 +56,9 @@ def vendedoresView(request):
     if user.tipo == 'MA':
         return render(request, 'vendedores.html', {"vendedores": vendedores, "User": user})
     else:
-        return redirect('/')
+        return redirect('/menu')
 
 def nuevoVendedorView(request):
-    vendedores = Empleado.objects.filter(tipo="SE")
     user = User.objects.filter(username=request.user).first()
 
     if user.tipo == 'MA':
@@ -75,17 +66,17 @@ def nuevoVendedorView(request):
             form = CustomEmpleadoCreationForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect("/menu/vendedores")
+                return redirect("/vendedores")
             else: 
-                return render(request, 'nuevoVendedor.html', {"vendedores": vendedores, "User": user, 'form': form})
+                return render(request, 'nuevoVendedor.html', {"User": user, 'form': form})
         else:
             form = CustomEmpleadoCreationForm()
-            return render(request, 'nuevoVendedor.html', {"vendedores": vendedores, "User": user, 'form': form})
+            return render(request, 'nuevoVendedor.html', {"User": user, 'form': form})
     else:
-        return redirect('/')
+        return redirect('/menu')
 
 def editarVendedorView(request, pk):
-    vendedores = Empleado.objects.filter(tipo="SE")
+
     user = User.objects.filter(username=request.user).first()
 
     vendedor = Empleado.objects.filter(pk=pk).first()
@@ -95,12 +86,117 @@ def editarVendedorView(request, pk):
             form = CustomEmpleadoCreationForm(request.POST, instance=vendedor)
             if form.is_valid():
                 form.save()
-                return redirect("/menu/vendedores")
+                return redirect("/vendedores")
             else:
-                return render(request, 'nuevoVendedor.html', {"vendedores": vendedores, "User": user, 'form': form})
+                return render(request, 'nuevoVendedor.html', {"User": user, 'form': form})
 
 
         form = CustomEmpleadoCreationForm(instance=vendedor)
-        return render(request, 'nuevoVendedor.html', {"vendedores": vendedores, "User": user, 'form': form})
+        return render(request, 'nuevoVendedor.html', {"User": user, 'form': form})
     else:
-        return redirect('/')
+        return redirect('/menu')
+
+def clientesView(request):
+
+    if request.method == "POST":
+        pk = request.POST.get("pk")
+        cliente = Cliente.objects.filter(pk=pk).first()
+        if cliente != None:
+            cliente.delete()
+
+    clientes = Cliente.objects.all().order_by("pk")
+    user = User.objects.filter(username=request.user).first()
+
+    if user.tipo == 'MA':
+        return render(request, 'clientes.html', {"clientes": clientes, "User": user})
+    else:
+        return redirect('/menu')
+
+def nuevoClienteView(request):
+    user = User.objects.filter(username=request.user).first()
+
+    if user.tipo == 'MA':
+        if request.method == 'POST':
+            form = nuevoClienteForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("/clientes")
+            else: 
+                return render(request, 'nuevoCliente.html', {"User": user, 'form': form})
+        else:
+            form = nuevoClienteForm()
+            return render(request, 'nuevoCliente.html', {"User": user, 'form': form})
+    else:
+        return redirect('/menu')
+
+def editarClienteView(request, pk):
+    user = User.objects.filter(username=request.user).first()
+
+    cliente = Cliente.objects.filter(pk=pk).first()
+    if user.tipo == 'MA':
+
+        if request.method == "POST":
+            form = nuevoClienteForm(request.POST, instance=cliente)
+            if form.is_valid():
+                form.save()
+                return redirect("/clientes")
+            else:
+                return render(request, 'nuevoCliente.html', {"User": user, 'form': form})
+
+
+        form = nuevoClienteForm(instance=cliente)
+        return render(request, 'nuevoCliente.html', {"User": user, 'form': form})
+    else:
+        return redirect('/menu')
+
+def prospectosView(request):
+    if request.method == "POST":
+        pk = request.POST.get("pk")
+        prospecto = Prospecto.objects.filter(pk=pk).first()
+        if prospecto != None:
+            prospecto.delete()
+
+    prospectos = Prospecto.objects.all().order_by("pk")
+    user = User.objects.filter(username=request.user).first()
+
+    if user.tipo == 'MA':
+        return render(request, 'solicitudesContacto.html', {"prospectos": prospectos, "User": user})
+    else:
+        return redirect('/menu')
+
+def nuevoProspectoView(request):
+    user = User.objects.filter(username=request.user).first()
+
+    if user.tipo == 'MA':
+        if request.method == 'POST':
+            form = nuevoProspectoForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("/prospectos")
+            else: 
+                return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
+        else:
+            form = nuevoProspectoForm()
+            return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
+    else:
+        return redirect('/menu')
+
+def editarProspectoView(request, pk):
+    user = User.objects.filter(username=request.user).first()
+
+    prospecto = Prospecto.objects.filter(pk=pk).first()
+    if user.tipo == 'MA':
+
+        if request.method == "POST":
+            form = nuevoProspectoForm(request.POST, instance=prospecto)
+            if form.is_valid():
+                form.save()
+                return redirect("/prospectos")
+            else:
+                return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
+
+
+        form = nuevoProspectoForm(instance=prospecto)
+        return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
+    else:
+        return redirect('/menu')
