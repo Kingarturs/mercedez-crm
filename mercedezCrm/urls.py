@@ -31,7 +31,7 @@ urlpatterns = [
     path('vendedores', login_required(clientes_views.vendedoresView, login_url='/login')),
     path('vendedores/nuevoVendedor', login_required(clientes_views.nuevoVendedorView, login_url='/login')),
     path('vendedores/editarVendedor/<pk>', login_required(clientes_views.editarVendedorView, login_url='/login')),
-    path('prospectos', login_required(clientes_views.prospectosView, login_url='/login')),
-    path('prospectos/nuevoProspecto', login_required(clientes_views.nuevoProspectoView, login_url='/login')),
-    path('prospectos/editarProspecto/<pk>', login_required(clientes_views.editarProspectoView, login_url='/login')),
+    path('prospectos', clientes_views.prospectosView),
+    path('prospectos/nuevoProspecto', clientes_views.nuevoProspectoView),
+    path('prospectos/editarProspecto/<pk>', clientes_views.editarProspectoView),
 ]

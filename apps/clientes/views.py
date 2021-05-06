@@ -9,7 +9,10 @@ from .forms import CustomEmpleadoCreationForm, nuevoClienteForm, nuevoProspectoF
 
 User = get_user_model()
 
-# Create your views here.
+
+def view_404(request, exception):
+    return render(request, '404.html')
+
 def login_view(request):
     form = AuthenticationForm()
     if request.user.is_authenticated:
@@ -159,44 +162,35 @@ def prospectosView(request):
     prospectos = Prospecto.objects.all().order_by("pk")
     user = User.objects.filter(username=request.user).first()
 
-    if user.tipo == 'MA':
-        return render(request, 'solicitudesContacto.html', {"prospectos": prospectos, "User": user})
-    else:
-        return redirect('/menu')
+    return render(request, 'solicitudesContacto.html', {"prospectos": prospectos, "User": user})
 
 def nuevoProspectoView(request):
     user = User.objects.filter(username=request.user).first()
 
-    if user.tipo == 'MA':
-        if request.method == 'POST':
-            form = nuevoProspectoForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect("/prospectos")
-            else: 
-                return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
-        else:
-            form = nuevoProspectoForm()
+    if request.method == 'POST':
+        form = nuevoProspectoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/prospectos")
+        else: 
             return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
     else:
-        return redirect('/menu')
+        form = nuevoProspectoForm()
+        return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
 
 def editarProspectoView(request, pk):
     user = User.objects.filter(username=request.user).first()
 
     prospecto = Prospecto.objects.filter(pk=pk).first()
-    if user.tipo == 'MA':
 
-        if request.method == "POST":
-            form = nuevoProspectoForm(request.POST, instance=prospecto)
-            if form.is_valid():
-                form.save()
-                return redirect("/prospectos")
-            else:
-                return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
+    if request.method == "POST":
+        form = nuevoProspectoForm(request.POST, instance=prospecto)
+        if form.is_valid():
+            form.save()
+            return redirect("/prospectos")
+        else:
+            return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
 
 
-        form = nuevoProspectoForm(instance=prospecto)
-        return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})
-    else:
-        return redirect('/menu')
+    form = nuevoProspectoForm(instance=prospecto)
+    return render(request, 'nuevoProspecto.html', {"User": user, 'form': form})

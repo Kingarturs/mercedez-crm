@@ -22,6 +22,9 @@
                         <th class="py-3 text-lg">Fecha</th>
                         <th class="py-3 text-lg">Tipo</th>
                         <th class="py-3 text-lg">Status</th>
+                        {% if User.tipo == 'MA' %}
+                            <th class="py-3 text-lg">Acciones</th>
+                        {% endif %}
                     </tr>
                     {% for i in ventas %}
                         <tr class="text-center py-2">
@@ -42,6 +45,17 @@
                                 <td class="py-2"> Con Adeudo </td>
                             {% else %}
                                 <td class="py-2"> Pagado </td>
+                            {% endif %}
+                            
+                            {% if User.tipo == 'MA' %}
+                                <td class="py-2 flex flex-row justify-center">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ i.pk }}" name="pk">
+                                        <input type="submit" value="Eliminar" class="bg-red-500 hover:bg-red-400 cursor-pointer rounded-md text-white py-1 px-4">
+                                    </form>
+                                    <a href="/prospectos/editarProspecto/{{i.pk}}" class="bg-yellow-500 hover:bg-yellow-400 cursor-pointer rounded-md text-white py-1 px-4 ml-2">Editar</a>
+                                </td>
                             {% endif %}
                         </tr>
                     {% endfor %}
