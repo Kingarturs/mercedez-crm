@@ -1,5 +1,4 @@
 from django.urls import path
-from apps import clientes
 from apps.productos import views as productos_views
 from apps.clientes import views as clientes_views
 from django.contrib.auth.decorators import login_required

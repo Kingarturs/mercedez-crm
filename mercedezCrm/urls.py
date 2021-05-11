@@ -24,7 +24,10 @@ urlpatterns = [
     path('ventas/', include('apps.ventas.urls')),
     path('clientes/', include('apps.clientes.urls')),
     path('sucursales/', include('apps.sucursales.urls')),
+    path('comisiones/', include('apps.comisiones.urls')),
 
+    path('', clientes_views.index_view),
+    path('registro', clientes_views.registroView),
     path('menu/', clientes_views.admin_view),
     path('login', clientes_views.login_view),
     path('logout', clientes_views.logout_method),

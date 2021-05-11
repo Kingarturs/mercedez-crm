@@ -28,3 +28,6 @@ class Venta(models.Model):
     empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
     prospecto = models.ForeignKey(Prospecto, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.producto} - {self.fecha_venta}"
+

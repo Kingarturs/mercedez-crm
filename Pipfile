@@ -10,9 +10,10 @@ makemigrations = "python manage.py makemigrations"
 createsuperuser = "python manage.py createsuperuser"
 
 [packages]
-django = "*"
+django = "==3.1.6"
 psycopg2 = "*"
 python-dotenv = "*"
+python-dateutil = "*"
 
 [dev-packages]
 

@@ -17,7 +17,7 @@ def productosView(request):
         if producto != None:
             producto.delete()
 
-    productos = Producto.objects.all()
+    productos = Producto.objects.all().order_by("pk")
     user = User.objects.filter(username=request.user).first()
 
     if user.tipo == 'MA':

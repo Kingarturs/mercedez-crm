@@ -5,10 +5,30 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth import get_user_model
 from .models import Cliente, Empleado, Prospecto
+from apps.productos.models import Producto
 from .forms import CustomEmpleadoCreationForm, nuevoClienteForm, nuevoProspectoForm
 
 User = get_user_model()
 
+
+def index_view(request):
+    productos = Producto.objects.all()
+    print(productos)
+
+    return render(request, "index.html", { "productos": productos })
+
+def registroView(request):
+
+    if request.method == 'POST':
+        form = nuevoProspectoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+        else: 
+            return render(request, 'nuevoProspecto.html', {'form': form})
+    else:
+        form = nuevoProspectoForm()
+        return render(request, "registro.html", { "form": form })
 
 def view_404(request, exception):
     return render(request, '404.html')

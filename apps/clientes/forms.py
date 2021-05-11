@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import ModelForm
 from .models import Empleado, Cliente, Prospecto
+from apps.productos.models import Producto
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -42,6 +43,10 @@ class nuevoClienteForm(ModelForm):
         fields = '__all__'
     
 class nuevoProspectoForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super (nuevoProspectoForm,self ).__init__(*args,**kwargs)
+        self.fields['auto'].queryset = Producto.objects.filter(existencias__gt=0)
+
     class Meta:
         model = Prospecto
         fields = '__all__'

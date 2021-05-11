@@ -13,7 +13,7 @@ def sucursalesView(request):
         if sucursal != None:
             sucursal.delete()
 
-    sucursales = Sucursal.objects.all()
+    sucursales = Sucursal.objects.all().order_by("pk")
     user = User.objects.filter(username=request.user).first()
 
     if user.tipo == 'MA':
