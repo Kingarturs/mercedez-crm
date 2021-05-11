@@ -11,7 +11,7 @@
 - Crear un archivo llamado `.env` en la carpeta raíz del proyecto.
   - Esto suele hacerse con el objetivo de no subir las credenciales de acceso, tokens de APIs u otra información valiosa a un repositorio.
 - Dentro del archivo `.env` y siguiendo la estructura del archivo `.example.env` llenar el valor de la variable `SECRET_KEY` con el valor de un token cualquiera que django usará internamente para tareas criptográficas.
-  - Puede usarse: `tngQ2JDbON5!ñmsFRnE(OKÑqtTMTT-OAIF0hZRFUj_xzQ-7vJCÑH.#2W_i7I` .
+  - Puede usarse: `tngQ2JDbON5!ñmsFRnE(OKÑqtTMTT-OAIF0hZRFUj_xzQ-7vJCÑH.#2W_i7I`, por ejemplo. 
 - Colocar en el archivo `.env` los valores de las variables de conexión a la base de datos en PostgreSQL.
 - Dentro de la carpeta raíz del proyecto ejecutar el comando `pipenv install` que instalará las dependencias del proyecto listadas en el archivo `Pipfile` y a su vez creará un entorno virtual para dichas dependencias.
 - Realizar la migración de la base de datos definida en los modelos de Django con el comando `pipenv run migrate`
